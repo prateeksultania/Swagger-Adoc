@@ -1,0 +1,26 @@
+= Flock API
+
+
+[[_overview]]
+== Overview
+Integrate your apps with flock using this API
+
+
+=== Version information
+[%hardbreaks]
+_Version_ : 0.0.4
+
+
+=== URI scheme
+[%hardbreaks]
+_Host_ : api.flock-staging.co
+_BasePath_ : /v1
+_Schemes_ : HTTPS
+
+
+=== Produces
+
+* `application/json`
+
+
+

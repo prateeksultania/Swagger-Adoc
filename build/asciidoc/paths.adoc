@@ -1,0 +1,270 @@
+
+[[_paths]]
+== Paths
+
+[[_chat_sendmessage_post]]
+=== Send Message
+....
+POST /chat.sendMessage
+....
+
+
+==== Description
+This method allows an app to send a message.
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|*Body*|*RequestBody* +
+_optional_|Body of the request for the sendMessage method|<<_message,Message>>|
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|*200*|Sent message successfully|No Content
+|*400*|The request was malformed \| A parameter for the method call is missing or invalid \| Missing user token in the method request \| The recipient of the message in the to field is unknown \| The message contains neither text nor any attachment|<<_parameter,parameter>>
+|*403*|An invalid user token was sent with the request \| App has been disabled for this user|<<_disabledby,disabledBy>>
+|*404*|The method named in the request URL does not exist|No Content
+|*405*|An HTTP method other than POST was used|No Content
+|*408*|A timeout occured before the server could receive the complete request from the app|No Content
+|*429*|Rate limit reached|No Content
+|*500*|An unexpected condition was encountered|No Content
+|*503*|The API service is unavailable at this time|No Content
+|===
+
+
+==== Tags
+
+* Chat
+
+
+[[_groups_getinfo_post]]
+=== Get group info
+....
+POST /groups.getInfo
+....
+
+
+==== Description
+This method gets the information pertaining to a group.
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|*Body*|*groupId* +
+_optional_|Id of the group for which information was requested|<<_groupid,GroupId>>|
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|*200*|A Group object.|<<_group,Group>>
+|*400*|The request was malformed \| A parameter for the method call is missing or invalid \| Missing user token in the method request \| The group provided in the groupId field can't be located|<<_parameter,parameter>>
+|*403*|An invalid user token was sent with the request \| App has been disabled for this user|<<_disabledby,disabledBy>>
+|*404*|The method named in the request URL does not exist|No Content
+|*405*|An HTTP method other than POST was used|No Content
+|*408*|A timeout occured before the server could receive the complete request from the app|No Content
+|*429*|Rate limit reached|No Content
+|*500*|An unexpected condition was encountered|No Content
+|*503*|The API service is unavailable at this time|No Content
+|===
+
+
+==== Tags
+
+* Groups
+
+
+[[_groups_getmembers_post]]
+=== Get group members
+....
+POST /groups.getMembers
+....
+
+
+==== Description
+This method retrieves public profiles of users belonging to a group
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|*FormData*|*groupId* +
+_required_|Id of the group for which membership information was requested|string|
+|*FormData*|*userToken* +
+_required_|The auth token of the user|string|
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|*200*|List of PublicProfile objects|< <<_publicprofile,PublicProfile>> > array
+|*400*|The request was malformed \| A parameter for the method call is missing or invalid \| Missing user token in the method request \| The group provided in the groupId field can't be located|<<_parameter,parameter>>
+|*403*|An invalid user token was sent with the request \| App has been disabled for this user|<<_disabledby,disabledBy>>
+|*404*|The method named in the request URL does not exist|No Content
+|*405*|An HTTP method other than POST was used|No Content
+|*408*|A timeout occured before the server could receive the complete request from the app|No Content
+|*429*|Rate limit reached|No Content
+|*500*|An unexpected condition was encountered|No Content
+|*503*|The API service is unavailable at this time|No Content
+|===
+
+
+==== Consumes
+
+* `application/x-www-form-urlencoded`
+
+
+==== Tags
+
+* Groups
+
+
+[[_groups_list_post]]
+=== get list of user's groups
+....
+POST /groups.list
+....
+
+
+==== Description
+This method retrieves a list of the groups that the user is a member of.
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|*FormData*|*userToken* +
+_required_|The auth token of the user|string|
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|*200*|A list of Group objects.|< <<_group,Group>> > array
+|*400*|The request was malformed \| A parameter for the method call is missing or invalid \| Missing user token in the method request|<<_parameter,parameter>>
+|*403*|An invalid user token was sent with the request \| App has been disabled for this user|<<_disabledby,disabledBy>>
+|*404*|The method named in the request URL does not exist|No Content
+|*405*|An HTTP method other than POST was used|No Content
+|*408*|A timeout occured before the server could receive the complete request from the app|No Content
+|*429*|Rate limit reached|No Content
+|*500*|An unexpected condition was encountered|No Content
+|*503*|The API service is unavailable at this time|No Content
+|===
+
+
+==== Consumes
+
+* `application/x-www-form-urlencoded`
+
+
+==== Tags
+
+* Groups
+
+
+[[_roster_listcontacts_post]]
+=== Lists all users
+....
+POST /roster.listContacts
+....
+
+
+==== Description
+This method retrieves the list of contacts associated with a user.
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|*200*|List of PublicProfile objects|<<_listofpublicprofiles,ListOfPublicProfiles>>
+|*400*|The request was malformed \| A parameter for the method call is missing or invalid \| Missing user token in the method request|<<_parameter,parameter>>
+|*403*|An invalid user token was sent with the request \| App has been disabled for this user|<<_disabledby,disabledBy>>
+|*404*|The request was malformed \| A parameter for the method call is missing or invalid \| Missing user token in the method request \| Not Found|No Content
+|*405*|An HTTP method other than POST was used|No Content
+|*408*|A timeout occured before the server could receive the complete request from the app|No Content
+|*429*|Rate limit reached|No Content
+|*500*|An unexpected condition was encountered|No Content
+|*503*|The API service is unavailable at this time|No Content
+|===
+
+
+==== Tags
+
+* App
+
+
+[[_users_getinfo_post]]
+=== get user info
+....
+POST /users.getInfo
+....
+
+
+==== Description
+This method retrieves information about a user.
+
+
+==== Parameters
+
+[options="header", cols=".^2,.^3,.^9,.^4,.^2"]
+|===
+|Type|Name|Description|Schema|Default
+|*FormData*|*userToken* +
+_required_|The auth token of the user|string|
+|===
+
+
+==== Responses
+
+[options="header", cols=".^2,.^14,.^4"]
+|===
+|HTTP Code|Description|Schema
+|*200*|A User object.|<<_user,User>>
+|*400*|The request was malformed \| A parameter for the method call is missing or invalid \| Missing user token in the method request|<<_parameter,parameter>>
+|*403*|An invalid user token was sent with the request \| App has been disabled for this user|<<_disabledby,disabledBy>>
+|*404*|The method named in the request URL does not exist|No Content
+|*405*|An HTTP method other than POST was used|No Content
+|*408*|A timeout occured before the server could receive the complete request from the app|No Content
+|*429*|Rate limit reached|No Content
+|*500*|An unexpected condition was encountered|No Content
+|*503*|The API service is unavailable at this time|No Content
+|===
+
+
+==== Consumes
+
+* `application/x-www-form-urlencoded`
+
+
+==== Tags
+
+* Users
+
+
+

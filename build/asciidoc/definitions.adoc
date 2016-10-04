@@ -1,0 +1,542 @@
+
+[[_definitions]]
+== Definitions
+
+[[_actionconfig]]
+=== ActionConfig
+This object describes the action that should be triggered when a user clicks on an attachment button.
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*desktopType* +
+_optional_|Required if type is openWidget. How the widget should be opened on the desktop|enum (modal, sidebar)
+|*mobileType* +
+_optional_|Not required. Can be used if type is openWidget or openBrowser. How the widget should be opened on mobile. There is only one possible value for this, modal, which is also the default.|enum (modal)
+|*sendContext* +
+_optional_|Not required. Can be used if type is openBrowser. Signifies whether context should be sent to the browser or not. Defaults to false.|boolean
+|*type* +
+_required_|The configured action. It can have any one of the following values <ul> <li>openWidget</li> <li>openBrowser</li> <li>sendToAppService</li> </ul>|enum (openWidget, openBrowser, sendToAppService)
+|*url* +
+_optional_|Required if type is openWidget or openBrowser. Denotes the widget URL or URL to be opened in browser|string
+|===
+
+
+[[_attachment]]
+=== Attachment
+An attachment object is included in any message that has rich content. Attachments are powerful in that they allow you to set multiple properties including title, description, widget, FlockML content, downloads, and attachment buttons.
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*appId* +
+_optional_|App id for the app that sent the attachment. Any value that your app provides for this attribute will be overwritten with your app's actual id by Flock|string
+|*buttons* +
+_optional_|An array of attachment buttons|< <<_attachmentbutton,AttachmentButton>> > array
+|*color* +
+_optional_|A hex value (e.g. #0ABE51) for the color bar|string
+|*description* +
+_optional_|A longer description of the attachment|string
+|*downloads* +
+_optional_|An array of download objects. Note: As of now this array should contain at max one object.|< <<_downloadobject,DownloadObject>> > array
+|*forward* +
+_optional_|If true, the attachment can be forwarded. Default value is false.|boolean
+|*id* +
+_optional_|A unique identifier for the attachment as provided by your app|string
+|*title* +
+_optional_|The title of the attachment|string
+|*url* +
+_optional_|The URL to open when user clicks an attachment, if no widget or FlockML is provided. When generating a URL Preview this should always be set|string
+|*views* +
+_optional_||<<_views,Views>>
+|===
+
+
+[[_attachmentbutton]]
+=== AttachmentButton
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*action* +
+_optional_||<<_actionconfig,ActionConfig>>
+|*icon* +
+_optional_|URL of the button|string
+|*id* +
+_optional_|An opaque string provided by your app to uniquely identify the button. The id is sent as an attribute of the client.pressButton event.|string
+|*name* +
+_optional_|Name of the button|string
+|===
+
+
+[[_downloadobject]]
+=== DownloadObject
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*filename* +
+_optional_|Name of the file|string
+|*mime* +
+_optional_|Mime type of the file (used to select the file icon)|string
+|*size* +
+_optional_|Size of the file in bytes|number
+|*src* +
+_optional_|URL of the file|string
+|===
+
+
+[[_group]]
+=== Group
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*id* +
+_required_|Id of this group|string
+|*memberCount* +
+_required_|Count of the group's members|number
+|*name* +
+_required_|The name of this group|string
+|*profileImage* +
+_optional_|URL for the group's profile image|string
+|===
+
+
+[[_groupid]]
+=== GroupId
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*groupId* +
+_required_||string
+|===
+
+
+[[_html]]
+=== Html
+Displays the HTML string inside the chat screen in desktop (using an iframe)
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*height* +
+_optional_|Height of the content|number
+|*inline* +
+_optional_|The HTML string|string
+|*width* +
+_optional_|Width of the content|number
+|===
+
+
+[[_image]]
+=== Image
+Full size/thumbnail image in attachment
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*height* +
+_optional_|Height of the image in pixels|number
+|*src* +
+_optional_|The URL of the image|string
+|*width* +
+_optional_|Width of the image in pixels|number
+|===
+
+
+[[_imageattachment]]
+=== ImageAttachment
+An image for the attachment
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*filename* +
+_optional_|Original file name for the image, if any|string
+|*original* +
+_optional_||<<_image,Image>>
+|*thumbnail* +
+_optional_||<<_image,Image>>
+|===
+
+
+[[_listofpublicprofiles]]
+=== ListOfPublicProfiles
+List of PublicProfile objects
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*schema* +
+_optional_||< <<_publicprofile,PublicProfile>> > array
+|===
+
+
+[[_message]]
+=== Message
+A message is sent whenever a user (or a bot) wants to communicate with another user or a group.
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*message* +
+_optional_||<<_messagedetails,MessageDetails>>
+|===
+
+
+[[_messagedetails]]
+=== MessageDetails
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*appId* +
+_optional_|Id of the app that sent the message.|string
+|*attachments* +
+_optional_|Any rich content to be included with the message is sent as part of attachments. Note: Currently, there is a limitation of one attachment per message|< <<_attachment,Attachment>> > array
+|*flockml* +
+_optional_|FlockML content for the message|string
+|*from* +
+_optional_|Id of the user who sent the message|string
+|*id* +
+_optional_|Client id for the message|string
+|*mentions* +
+_optional_|An array of user ids indicating users who have been mentioned in the message. Only relevant for group messages.|< string > array
+|*notification* +
+_optional_|Text to be shown as the message's notification. Default is text|string
+|*sendAs* +
+_optional_||<<_sendas,SendAs>>
+|*text* +
+_required_|Message text added by the user|string
+|*timestamp* +
+_optional_|Server timestamp of the message|string
+|*to* +
+_required_|Id of the user or group to whom the message was sent|string
+|*uid* +
+_optional_|A unique server id for the message|string
+|===
+
+
+[[_publicprofile]]
+=== PublicProfile
+rovides publicly visible profile information for any user in Flock
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*firstName* +
+_required_|First name of the user|string
+|*id* +
+_required_|Id of the user|string
+|*lastName* +
+_required_|Last name of the user|string
+|*profileImage* +
+_optional_|URL of the user's profile image|string
+|===
+
+
+[[_sendas]]
+=== SendAs
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*name* +
+_optional_|Name of the sender|string
+|*profileImage* +
+_optional_|URL of the sender's profile image|string
+|===
+
+
+[[_user]]
+=== User
+All the information pertaining to a user is embodied in the User object
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*email* +
+_required_|Email address of the user|string
+|*firstName* +
+_required_|This user's first name|string
+|*id* +
+_required_|Id of this user|string
+|*lastName* +
+_required_|This user's last name|string
+|*profileImage* +
+_optional_|URL of the user's profile image|string
+|*role* +
+_required_|This user's role. Can be either user or admin|enum (admin, user)
+|*teamId* +
+_required_|Id of the team that this user belongs to|string
+|*timezone* +
+_required_|timezone of the user in UTC offset format|string
+|===
+
+
+[[_views]]
+=== Views
+Provides user visible views for the attachment. Atleast one of the four objects must be present inside views.
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*flockml* +
+_optional_|A string containing FlockML content. It is displayed inside the chat screen on both desktop and mobile|string
+|*html* +
+_optional_||<<_html,Html>>
+|*image* +
+_optional_||<<_imageattachment,ImageAttachment>>
+|*widget* +
+_optional_||<<_widget,Widget>>
+|===
+
+
+[[_widget]]
+=== Widget
+Displays an attachment widget inside the chat screen in desktop, or pops up a modal when the attachment is opened on mobile
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*height* +
+_optional_|Height of the widget|number
+|*src* +
+_optional_|URL for the widget|string
+|*width* +
+_optional_|Width of the widget|number
+|===
+
+
+[[_app_install]]
+=== app.install
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*name* +
+_optional_||enum (app.install)
+|*userId* +
+_optional_|Id of the user who installed the app|string
+|*userToken* +
+_optional_|API access token for this user|string
+|===
+
+
+[[_app_uninstall]]
+=== app.uninstall
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*name* +
+_optional_||enum (app.uninstall)
+|*userId* +
+_optional_|Id of the user who uninstalled the app|string
+|===
+
+
+[[_chat_receivemessage]]
+=== chat.receiveMessage
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*message* +
+_optional_||<<_chatmessage,chatMessage>>
+|*name* +
+_optional_||enum (chat.receiveMessage)
+|*userId* +
+_optional_|Id of the bot that received the message|string
+|===
+
+
+[[_chat_unfurlurl]]
+=== chat.unfurlUrl
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*messageId* +
+_optional_|Id of the message|string
+|*name* +
+_optional_||enum (chat.unfurlUrl)
+|*to* +
+_optional_|Id of the user or group to whom the message was sent|string
+|*url* +
+_optional_|The URL to unfurl|string
+|*userId* +
+_optional_|Id of the user whose client requested the unfurl|string
+|===
+
+
+[[_chatmessage]]
+=== chatMessage
+The message that was sent to the app's bot
+
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*from* +
+_optional_|Id of the user or group who sent the message|string
+|*text* +
+_optional_|Message text that was sent|string
+|*to* +
+_optional_|Id of the app bot to whom the message was sent|string
+|===
+
+
+[[_client_flockmlaction]]
+=== client.flockmlAction
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*actionId* +
+_optional_|id of the action that was pressed|string
+|*attachmentId* +
+_optional_|id of the attachment|string
+|*chat* +
+_optional_|Id of the user or group whose chat tab was open|string
+|*chatName* +
+_optional_|Name of the user or group whose chat tab is open|string
+|*messageId* +
+_optional_|id of the message|string
+|*messageUid* +
+_optional_|Uid of the message|string
+|*name* +
+_optional_||enum (client.flockmlAction)
+|*userId* +
+_optional_|Id of the user who clicked on a FlockML action element|string
+|*userName* +
+_optional_|Name of the user|string
+|===
+
+
+[[_client_openattachmentwidget]]
+=== client.openAttachmentWidget
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*attachmentId* +
+_optional_|Id of the attachment whose widget is opened|string
+|*chat* +
+_optional_|Id of the user or group whose chat tab was open|string
+|*chatName* +
+_optional_|Name of the user or group whose chat tab is open|string
+|*messageId* +
+_optional_|Client id for the message whose attachment widget is opened|string
+|*messageUid* +
+_optional_|Server id for the message whose attachment widget is opened|string
+|*name* +
+_optional_||enum (client.openAttachmentWidget)
+|*userId* +
+_optional_|Id of the user in whose client the attachment is opened|string
+|*userName* +
+_optional_|Name of the user|string
+|===
+
+
+[[_client_pressbutton]]
+=== client.pressButton
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*attachmentId* +
+_optional_|Id of the attachment, if provided. Available only for an attachment button.|string
+|*button* +
+_optional_|The button that was pressed. This should have any one of the following values <ul> <li>chatTabButton</li> <li>appLauncherButton</li> <li>attachmentPickerButton</li> <li>attachmentButton</li> </ul>|enum (chatTabButton, appLauncherButton, attachmentPickerButton, attachmentButton)
+|*buttonId* +
+_optional_|Button identifier. Only sent for an attachment buttons, use it to distinguish one attachment button from another.|string
+|*chat* +
+_optional_|Id of the user or group whose chat tab is open|string
+|*chatName* +
+_optional_|Name of the user or group whose chat tab is open|string
+|*messageUid* +
+_optional_|Uid of the message in which the attachment button was pressed. Available only for an attachment button.|string
+|*name* +
+_optional_||enum (client.pressButton)
+|*userId* +
+_optional_|Id of the user who pressed the button|string
+|*userName* +
+_optional_|Name of the user|string
+|===
+
+
+[[_client_slashcommand]]
+=== client.slashCommand
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*chat* +
+_optional_|Id of user or group in whose chat tab the command was entered|string
+|*chatName* +
+_optional_|Name of the user or group whose chat tab is open|string
+|*command* +
+_optional_|The name of the command|string
+|*name* +
+_optional_||enum (client.slashCommand)
+|*text* +
+_optional_|Additional text entered by the user|string
+|*userId* +
+_optional_|Id of the user who entered the slash command|string
+|*userName* +
+_optional_|Name of the user|string
+|===
+
+
+[[_client_widgetaction]]
+=== client.widgetAction
+
+[options="header", cols=".^3,.^11,.^4"]
+|===
+|Name|Description|Schema
+|*attachmentId* +
+_optional_|Id of the attachment for which the attachment widget was opened|string
+|*chat* +
+_optional_|Id of the user or group whose chat tab is open|string
+|*chatName* +
+_optional_|Name of the user or group whose chat tab is open|string
+|*messageUid* +
+_optional_|Uid of the message for which the attachment widget was opened|string
+|*name* +
+_optional_||enum (client.widgetAction)
+|*userId* +
+_optional_|Id of the user who opened the widget|string
+|*userName* +
+_optional_|Name of the user|string
+|===
+
+
+[[_disabledby]]
+=== disabledBy
+Pne of user or team (Returned in case App has been disabled for this user)
+
+_Type_ : string
+
+
+[[_parameter]]
+=== parameter
+Name of the missing paramenter (Returned in case a parameter for the method call is missing or invalid)
+
+_Type_ : string
+
+
+
